@@ -1,3 +1,5 @@
-Flask
 requests
 sqlalchemy
+plyvel
+uvicorn
+fastapi
