@@ -1,8 +1,7 @@
-# node.py
 from fastapi import FastAPI, Request
 from pydantic import BaseModel
 from blockchain import Blockchain
-from block import Block
+import config
 import uvicorn
 
 app = FastAPI()
@@ -20,11 +19,11 @@ def add_transaction(tx: Transaction):
 
 @app.get("/chain")
 def get_chain():
-    return {"length": len(blockchain.chain), "chain": [block.__dict__ for block in blockchain.chain]}
+    return blockchain.chain
 
 @app.get("/ping")
 def ping():
     return {"status": "alive"}
 
 if __name__ == "__main__":
-    uvicorn.run("node:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("node:app", host="127.0.0.1", port=config.PORT, reload=True)
