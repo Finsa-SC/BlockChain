@@ -3,15 +3,16 @@ from pydantic import BaseModel
 from blockchain import Blockchain
 import config
 import uvicorn
+from fastapi import HTTPException
 import requests
 
 app = FastAPI()
 blockchain = Blockchain()
 
 # Daftar alamat node peer (tambahkan sesuai node yang kamu punya)
-PEERS = [
+peers = [
     "http://127.0.0.1:8000",
-    "http://127.0.0.1:8001",
+    "http://127.0.0.1:8001"
 ]
 
 class Transaction(BaseModel):
@@ -54,11 +55,40 @@ def ping():
 
 def broadcast_chain():
     chain = [block.to_dict() for block in blockchain.get_all_blocks()]
-    for peer in PEERS:
+    for peer in peers   :
         try:
             requests.post(f"{peer}/receive_chain", json={"chain": chain})
         except Exception as e:
             print(f"Gagal broadcast ke {peer}: {e}")
+
+@app.get("/sync_chain")
+def sync_chain():
+    global blockchain
+    longest_chain = None
+    max_length = len(blockchain.get_all_blocks())
+
+    for peer in peers:
+        if peer == f"http://127.0.0.1:{config.PORT}":
+            continue  # Jangan sync ke diri sendiri
+
+        try:
+            res = requests.get(f"{peer}/chain")
+            if res.status_code == 200:
+                data = res.json()
+                length = data["length"]
+                chain = data["chain"]
+
+                if length > max_length and blockchain.is_valid_chain(chain):
+                    max_length = length
+                    longest_chain = chain
+        except:
+            continue
+
+    if longest_chain:
+        blockchain.replace_chain(longest_chain)
+        return {"message": "Chain diganti dengan versi lebih panjang"}
+    else:
+        return {"message": "Sudah pakai chain terpanjang"}
 
 if __name__ == "__main__":
     uvicorn.run("node:app", host="127.0.0.1", port=config.PORT, reload=True)
