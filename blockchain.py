@@ -56,3 +56,37 @@ class Blockchain:
         block.nonce = obj['nonce']
         block.hash = obj['hash']
         return block
+
+    def is_valid_chain(self, chain):
+        for i in range(1, len(chain)):
+            current = chain[i]
+            previous = chain[i - 1]
+
+            if current['index'] != previous['index'] + 1:
+                return False
+
+            if current['previous_hash'] != previous['hash']:
+                return False
+
+            # Cek hash valid sesuai data dan nonce (kamu sesuaikan sesuai fungsi hashing kamu)
+            hash_check = self.calculate_hash(
+                current['index'],
+                current['timestamp'],
+                current['sender'],
+                current['recipient'],
+                current['amount'],
+                current['previous_hash'],
+                current['nonce']
+            )
+            if current['hash'] != hash_check:
+                return False
+
+        return True
+
+    def replace_chain(self, new_chain):
+        """
+        Ganti chain lama dengan yang baru
+        """
+        # Konversi new_chain (list of dict) jadi objek block kalau perlu
+        # Kalau kamu pakai dict langsung sebagai block, bisa langsung ganti
+        self.chain = new_chain
