@@ -48,12 +48,11 @@ def main():
 
         elif choice == '2':
             response = requests.get(f"{API_URL}/chain")
-            blocks = response.json()
+            data = response.json()
+            blocks = data["chain"]
 
             for block in blocks:
                 print_block(block)
-
-
 
         elif choice == '3':
             print("Sampai jumpa, Onii-chan~! >///<")
