@@ -1,7 +1,7 @@
 import requests
 import hashlib
 
-API_URL = "http://127.0.0.1:8000"  # Jangan diubah kalau pakai uvicorn default
+API_URL = "http://127.0.0.1:8000"  # Ganti ke port node yang kamu pakai
 
 def hash_user(name):
     return hashlib.sha256(name.encode()).hexdigest()
@@ -41,10 +41,13 @@ def main():
                 "amount": amount
             }
 
-            response = requests.post(f"{API_URL}/add_block", json=payload)
+            # Kirim transaksi ke node
+            response = requests.post(f"{API_URL}/add_transaction", json=payload)
             print(response.json())
 
-
+            # Sinkronisasi setelah transaksi
+            sync_res = requests.get(f"{API_URL}/sync_chain")
+            print("Sync result:", sync_res.json())
 
         elif choice == '2':
             response = requests.get(f"{API_URL}/chain")
