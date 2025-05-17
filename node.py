@@ -19,7 +19,14 @@ def add_transaction(tx: Transaction):
 
 @app.get("/chain")
 def get_chain():
-    return blockchain.chain
+    blocks = blockchain.get_all_blocks()
+    chain_data = [block.to_dict() for block in blocks]
+    return {
+        "length": len(chain_data),
+        "chain": chain_data
+    }
+
+
 
 @app.get("/ping")
 def ping():
