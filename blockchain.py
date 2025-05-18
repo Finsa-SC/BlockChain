@@ -2,6 +2,7 @@ import time
 import plyvel
 import json
 from block import Block
+import block
 
 
 class Blockchain:
@@ -68,8 +69,7 @@ class Blockchain:
             if current['previous_hash'] != previous['hash']:
                 return False
 
-            # Cek hash valid sesuai data dan nonce (kamu sesuaikan sesuai fungsi hashing kamu)
-            hash_check = self.calculate_hash(
+            hash_check = Block.calculate_hash(
                 current['index'],
                 current['timestamp'],
                 current['sender'],
@@ -84,9 +84,4 @@ class Blockchain:
         return True
 
     def replace_chain(self, new_chain):
-        """
-        Ganti chain lama dengan yang baru
-        """
-        # Konversi new_chain (list of dict) jadi objek block kalau perlu
-        # Kalau kamu pakai dict langsung sebagai block, bisa langsung ganti
         self.chain = new_chain

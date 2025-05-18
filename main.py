@@ -1,7 +1,7 @@
 import requests
 import hashlib
 
-API_URL = "http://127.0.0.1:8000"  # Ganti ke port node yang kamu pakai
+API_URL = "http://127.0.0.1:8000"
 
 def hash_user(name):
     return hashlib.sha256(name.encode()).hexdigest()
@@ -24,15 +24,15 @@ def main():
         print("\n==============================")
         print("      ⛓️ BLOCKCHAIN MENU")
         print("==============================")
-        print("1. Tambah Transaksi")
-        print("2. Lihat Semua Block")
-        print("3. Keluar")
-        choice = input("Pilih menu: ")
+        print("1. Add Transaction")
+        print("2. View All Blocks")
+        print("3. Exit")
+        choice = input("Choose menu: ")
 
         if choice == '1':
-            sender = input("Nama Pengirim: ")
-            recipient = input("Nama Penerima: ")
-            amount = float(input("Jumlah: "))
+            sender = input("Sender Name: ")
+            recipient = input("recipient name: ")
+            amount = float(input("Amount: "))
 
             hashed_sender = hash_user(sender)
             payload = {
@@ -41,11 +41,9 @@ def main():
                 "amount": amount
             }
 
-            # Kirim transaksi ke node
             response = requests.post(f"{API_URL}/add_transaction", json=payload)
             print(response.json())
 
-            # Sinkronisasi setelah transaksi
             sync_res = requests.get(f"{API_URL}/sync_chain")
             print("Sync result:", sync_res.json())
 
@@ -58,11 +56,11 @@ def main():
                 print_block(block)
 
         elif choice == '3':
-            print("Sampai jumpa, Onii-chan~! >///<")
+            print("Good Bye")
             break
 
         else:
-            print("Pilihan tidak valid. Coba lagi.")
+            print("Invalid choice. Try again.")
 
 if __name__ == "__main__":
     main()

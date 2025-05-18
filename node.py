@@ -3,17 +3,13 @@ from pydantic import BaseModel
 from blockchain import Blockchain
 import config
 import uvicorn
-from fastapi import HTTPException
 import requests
 
 app = FastAPI()
 blockchain = Blockchain()
 
-# Daftar alamat node peer (tambahkan sesuai node yang kamu punya)
-peers = [
-    "http://127.0.0.1:8000",
-    "http://127.0.0.1:8001"
-]
+peers = config.PEERS
+
 
 class Transaction(BaseModel):
     sender: str
@@ -26,7 +22,7 @@ class ChainData(BaseModel):
 @app.post("/add_transaction")
 def add_transaction(tx: Transaction):
     blockchain.add_block(tx.sender, tx.recipient, tx.amount)
-    broadcast_chain()  # Broadcast ke semua node peer
+    broadcast_chain()
     return {"message": "Transaction added"}
 
 @app.get("/chain")
@@ -42,7 +38,6 @@ def get_chain():
 def receive_chain(data: ChainData):
     incoming_chain = data.chain
     current_chain = blockchain.get_all_blocks()
-    # Cek apakah chain baru lebih panjang dan valid
     if len(incoming_chain) > len(current_chain) and blockchain.is_valid_chain(incoming_chain):
         blockchain.replace_chain(incoming_chain)
         return {"message": "Chain replaced"}
@@ -59,7 +54,7 @@ def broadcast_chain():
         try:
             requests.post(f"{peer}/receive_chain", json={"chain": chain})
         except Exception as e:
-            print(f"Gagal broadcast ke {peer}: {e}")
+            print(f"Failed broadcast to {peer}: {e}")
 
 @app.get("/sync_chain")
 def sync_chain():
@@ -69,7 +64,7 @@ def sync_chain():
 
     for peer in peers:
         if peer == f"http://127.0.0.1:{config.PORT}":
-            continue  # Jangan sync ke diri sendiri
+            continue
 
         try:
             res = requests.get(f"{peer}/chain")
@@ -86,9 +81,9 @@ def sync_chain():
 
     if longest_chain:
         blockchain.replace_chain(longest_chain)
-        return {"message": "Chain diganti dengan versi lebih panjang"}
+        return {"message": "Chain is replaced by a longer version"}
     else:
-        return {"message": "Sudah pakai chain terpanjang"}
+        return {"message": "Already used the longest chain"}
 
 if __name__ == "__main__":
     uvicorn.run("node:app", host="127.0.0.1", port=config.PORT, reload=True)

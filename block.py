@@ -1,6 +1,5 @@
 import hashlib
 import json
-import time
 
 
 class Block:
@@ -23,6 +22,19 @@ class Block:
             'amount': self.amount,
             'previous_hash': self.previous_hash,
             'nonce': self.nonce
+        }, sort_keys=True).encode()
+        return hashlib.sha256(block_data).hexdigest()
+
+    @staticmethod
+    def calculate_hash(index, timestamp, sender, recipient, amount, previous_hash, nonce):
+        block_data = json.dumps({
+            'index': index,
+            'timestamp': timestamp,
+            'sender': sender,
+            'recipient': recipient,
+            'amount': amount,
+            'previous_hash': previous_hash,
+            'nonce': nonce
         }, sort_keys=True).encode()
         return hashlib.sha256(block_data).hexdigest()
 
