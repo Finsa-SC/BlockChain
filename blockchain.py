@@ -69,7 +69,7 @@ class Blockchain:
             if current['previous_hash'] != previous['hash']:
                 return False
 
-            hash_check = Block.calculate_hash(
+            hash_check = Block.calculate_hash_static(
                 current['index'],
                 current['timestamp'],
                 current['sender'],

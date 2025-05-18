@@ -26,7 +26,7 @@ class Block:
         return hashlib.sha256(block_data).hexdigest()
 
     @staticmethod
-    def calculate_hash(index, timestamp, sender, recipient, amount, previous_hash, nonce):
+    def calculate_hash_static(index, timestamp, sender, recipient, amount, previous_hash, nonce):
         block_data = json.dumps({
             'index': index,
             'timestamp': timestamp,

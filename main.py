@@ -1,7 +1,7 @@
 import requests
 import hashlib
 
-API_URL = "http://127.0.0.1:8000"
+API_URL = "http://127.0.0.1:8001"
 
 def hash_user(name):
     return hashlib.sha256(name.encode()).hexdigest()

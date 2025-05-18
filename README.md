@@ -2,6 +2,21 @@
 
 A simple blockchain simulation project that demonstrates the basic concepts of blockchain technology including blocks, mining, transactions, and peer-to-peer networking.
 
+## Preview
+#### Main Menu:
+
+![Main Menu](assets/menu.png)
+
+#### Distributed Blockchain:
+![Main Menu](assets/Multi_Nodes.png)
+
+#### Block Views:
+![Main Menu](assets/show.png)
+
+#### Test Run:
+![Main Menu](assets/test.png)
+
+
 ## 🚀 Features
 
 - ✅ Block creation with sender, recipient, amount, timestamp, and hash
@@ -181,6 +196,11 @@ A command-line interface for:
 - The mining difficulty can be adjusted in the blockchain.py file` self.difficulty = 2 `
 - Each node maintains its own copy of the blockchain
 - To reset the blockchain: `rm -rf db/`
+- You can test different nodes whether it runs smoothly by turning `API_URL = "http://127.0.0.1:8001"` in main.py into the port you want to test
+
+
+
+
 ## 📝 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
