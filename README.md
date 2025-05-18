@@ -53,8 +53,8 @@ The blockchain utilizes LevelDB for data persistence, providing a lightweight an
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
-cd Blockchain_Simulitation
+git https://github.com/Finsa-SC/BlockChain
+cd BlockChain
 ```
 
 2. Create and activate a virtual environment:
