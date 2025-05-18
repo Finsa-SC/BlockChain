@@ -1,8 +1,8 @@
-# Blockchain Simulation
+# 🧱⛓️‍💥 Blockchain Simulation
 
 A simple blockchain simulation project that demonstrates the basic concepts of blockchain technology including blocks, mining, transactions, and peer-to-peer networking.
 
-## Preview
+## 👀 Preview
 #### Main Menu:
 
 ![Main Menu](assets/menu.png)
@@ -36,7 +36,7 @@ The blockchain utilizes LevelDB for data persistence, providing a lightweight an
 - SHA-256 hashing (via Python's `hashlib`)
 - JSON for block serialization
 
-## Project Structure
+## 🔀 Project Structure
 
 ```
 .
@@ -49,7 +49,7 @@ The blockchain utilizes LevelDB for data persistence, providing a lightweight an
 └── transaction.py     # (Empty file, possibly for future use)
 ```
 
-## Installation
+## ⬇️ Installation
 
 1. Clone the repository:
 ```bash
@@ -75,7 +75,7 @@ pip install -r requirements.txt
    - On macOS: `brew install leveldb`
    - On Windows: Follow [these instructions](https://github.com/simon-weber/leveldb-py)
 
-## How To Use
+## ❕ How To Use ❔
 
 ### Running a Blockchain Node
 
@@ -114,7 +114,7 @@ python main.py
    - View all blocks in the chain
    - Exit the application
 
-## Core Components
+## ☀️ Core Components
 
 ### Block (block.py)
 
@@ -175,7 +175,7 @@ A command-line interface for:
 - User identifiers (sender, recipient)
 - Block integrity (calculate_hash)
 
-## API Endpoints
+## 🔚 API Endpoints
 
 - `POST /add_transaction`: Add a new transaction to the blockchain
 - `GET /chain`: Get the full blockchain data
@@ -183,14 +183,14 @@ A command-line interface for:
 - `GET /ping`: Check if a node is active
 - `GET /sync_chain`: Synchronize with the longest valid chain in the network
 
-## Security Features
+## 🛅 Security Features
 
 - Hashing of user identities
 - Cryptographic linking of blocks
 - Proof-of-work consensus mechanism
 - Chain validation
 
-## Notes
+## 📒 Notes
 
 - This is a simulation for educational purposes and not suitable for production use
 - The mining difficulty can be adjusted in the blockchain.py file` self.difficulty = 2 `
